@@ -19,8 +19,6 @@ public with sharing class DataCreation {
         ) {
             insert bookList;
             insert warehouseList;
-        } else {
-            throw new DmlException('No permission to create');
         }
     }
 
