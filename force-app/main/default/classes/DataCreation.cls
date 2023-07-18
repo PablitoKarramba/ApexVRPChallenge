@@ -19,7 +19,25 @@ public with sharing class DataCreation {
         ) {
             insert bookList;
             insert warehouseList;
+            assignBookToWarehouse();
         }
+    }
+
+    private void assignBookToWarehouse() {
+        List<Book__c> booksWithoutWarehouseList = new List<Book__c>([SELECT Id FROM Book__c WHERE Warehouse__c = NULL]);
+        List<Warehouse__c> warehouseList = new List<Warehouse__c>([SELECT Id FROM Warehouse__c]);
+        for (Book__c book : booksWithoutWarehouseList) {
+            book.Warehouse__c = warehouseList[generateRandomIndex(warehouseList)].Id;
+        }
+        if (Book__c.getSObjectType().getDescribe().isUpdateable()) {
+            update booksWithoutWarehouseList;
+        }
+    }
+
+    private Integer generateRandomIndex(List<SObject> collection) {
+        Double randomNumber = Math.random();
+        Integer randomIndex = (randomNumber * (collection.size() - 1)).intValue();
+        return randomIndex;
     }
 
     private String generateRandomString(Integer len) {
