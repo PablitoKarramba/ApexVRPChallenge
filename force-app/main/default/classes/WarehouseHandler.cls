@@ -4,20 +4,22 @@ public with sharing class WarehouseHandler {
         return warehouses;
     }
 
-    // Calculate number of books for each warehouse
+    //FIX this crap
     public void calculateBookAmount() {
-        List<Warehouse__c> warehouses = getAllWarehouses();
-        Set<Id> bookIds = new Set<Id>();
-
         AggregateResult[] groupedResults = [
             SELECT COUNT(Id), Warehouse__c
             FROM Book__c
             GROUP BY Warehouse__c
             ORDER BY COUNT(Id) DESC
         ];
-        for (AggregateResult ar : groupedResults) {
-            System.debug('Warehouse: ' + ar.get('Warehouse__c'));
-            System.debug('Books: ' + ar.get('expr0'));
-        }
+        // Map<Id, Integer> warehouseIds2BookAmount = new Map<Id, Integer>();
+        // for (AggregateResult ar : groupedResults) {
+        //     warehouseIds2BookAmount.put(String.valueOf(ar.get('Warehouse__c')), Integer.valueOf(ar.get('expr0')));
+        // }
+
+        // Map<Id, Warehouse__c> w2b = new Map<Id, Warehouse__c>([SELECT Id, Number_of_books__c FROM Warehouse__c]);
+        // for (Warehouse__c warehouse : w2b.values()) {
+        //     warehouse.Number_of_books__c = groupedResults.
+        // }
     }
 }
