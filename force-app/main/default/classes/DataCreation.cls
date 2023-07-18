@@ -2,9 +2,9 @@ public with sharing class DataCreation {
     List<Book__c> bookList = new List<Book__c>();
     List<Warehouse__c> warehouseList = new List<Warehouse__c>();
 
-    public void createData() {
+    public void createData(Integer recordsAmount) {
         // Populate lists
-        for (Integer i = 0; i < 100; i++) {
+        for (Integer i = 0; i < recordsAmount; i++) {
             // Create new book with random name
             Book__c book = new Book__c(Name = generateRandomString(8));
             bookList.add(book);
