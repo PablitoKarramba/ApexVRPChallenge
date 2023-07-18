@@ -1,5 +1,5 @@
 @isTest
-private class DataCreationTest {
+private class DataCreatorTest {
     @IsTest
     static void testInsertDataAsUserWithoutPermissions() {
         List<Book__c> preInsertBookList = new List<Book__c>([SELECT Id FROM Book__c]);
@@ -22,8 +22,8 @@ private class DataCreationTest {
             System.debug('Running test as user: ' + UserInfo.getUserName());
             System.debug('preInsertBookList size: ' + preInsertBookList.size());
             System.debug('preInsertWarehouseList size: ' + preInsertWarehouseList.size());
-            DataCreation dc = new DataCreation();
-            dc.createData();
+            DataCreator dc = new DataCreator();
+            dc.createData(10);
         }
         Test.stopTest();
         List<Book__c> postInsertBookList = new List<Book__c>([SELECT Id FROM Book__c]);

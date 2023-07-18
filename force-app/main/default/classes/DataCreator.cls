@@ -1,4 +1,4 @@
-public with sharing class DataCreation {
+public with sharing class DataCreator {
     List<Book__c> books = new List<Book__c>();
     List<Warehouse__c> warehouses = new List<Warehouse__c>();
 
