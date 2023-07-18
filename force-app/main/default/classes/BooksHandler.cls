@@ -4,15 +4,13 @@ public with sharing class BooksHandler {
         return bookList;
     }
 
-    public void createBookSerialNumber() {
+    public void assignBookSerialNumber() {
         List<Book__c> allBooks = getAllBooks();
-        Integer iterator = 0;
-        for (Book__c book : allBooks) {
-            book.Serial_number__c = 'AA-0-A-' + iterator;
-            System.debug(book.Serial_number__c);
-            iterator++;
+        for (Integer i = 0, j = allBooks.size(); i < j; i++) {
+            allBooks[i].Serial_number__c = 'AA-0-A-' + i;
+            System.debug(allBooks[i].Serial_number__c);
         }
-        if (Book__c.getSObjectType().getDescribe().isUpdateable()) {
+        if (!allBooks.isEmpty()) {
             update allBooks;
         }
     }

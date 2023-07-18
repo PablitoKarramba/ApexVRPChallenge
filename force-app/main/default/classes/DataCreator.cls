@@ -1,36 +1,30 @@
 public with sharing class DataCreation {
-    List<Book__c> bookList = new List<Book__c>();
-    List<Warehouse__c> warehouseList = new List<Warehouse__c>();
+    List<Book__c> books = new List<Book__c>();
+    List<Warehouse__c> warehouses = new List<Warehouse__c>();
 
     public void createData(Integer recordsAmount) {
-        // Populate lists
         for (Integer i = 0; i < recordsAmount; i++) {
-            // Create new book with random name
             Book__c book = new Book__c(Name = generateRandomString(8));
-            bookList.add(book);
-            // Create new warehouse with random name
+            books.add(book);
             Warehouse__c warehouse = new Warehouse__c(Name = generateRandomString(8));
-            warehouseList.add(warehouse);
+            warehouses.add(warehouse);
         }
-        // Insert records
-        if (
-            Book__c.getSObjectType().getDescribe().isCreateable() &&
-            Warehouse__c.getSObjectType().getDescribe().isCreateable()
-        ) {
-            insert bookList;
-            insert warehouseList;
+
+        if (!books.isEmpty() && !warehouses.isEmpty()) {
+            insert books;
+            insert warehouses;
             assignBookToWarehouse();
         }
     }
 
     private void assignBookToWarehouse() {
-        List<Book__c> booksWithoutWarehouseList = new List<Book__c>([SELECT Id FROM Book__c WHERE Warehouse__c = NULL]);
-        List<Warehouse__c> warehouseList = new List<Warehouse__c>([SELECT Id FROM Warehouse__c]);
-        for (Book__c book : booksWithoutWarehouseList) {
-            book.Warehouse__c = warehouseList[generateRandomIndex(warehouseList)].Id;
+        List<Book__c> booksWithoutWarehouses = new List<Book__c>([SELECT Id FROM Book__c WHERE Warehouse__c = NULL]);
+        List<Warehouse__c> warehouses = new List<Warehouse__c>([SELECT Id FROM Warehouse__c]);
+        for (Book__c book : booksWithoutWarehouses) {
+            book.Warehouse__c = warehouses[generateRandomIndex(warehouses)].Id;
         }
-        if (Book__c.getSObjectType().getDescribe().isUpdateable()) {
-            update booksWithoutWarehouseList;
+        if (!booksWithoutWarehouses.isEmpty()) {
+            update booksWithoutWarehouses;
         }
     }
 
